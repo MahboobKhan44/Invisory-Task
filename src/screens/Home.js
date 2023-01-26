@@ -9,36 +9,36 @@ import {
 import DocumentPicker from 'react-native-document-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomModal from './src/components/CustomModal';
+import CustomModal from '../components/CustomModal';
 
 export const STORAGE_KEY = "@users";
 
 
-const App = ({ navigation }) => {
+const Home = ({ navigation }) => {
   const [documentation, setDocumentation] = React.useState([]);
 
   const [isModalVisible, setIsModalVisible] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   fetchImage();
-  // }, []);
+  React.useEffect(() => {
+    fetchImage();
+  }, []);
 
-  // const setItem = (value) => AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(value));
-  // const getItem = () => AsyncStorage.getItem(STORAGE_KEY);
+  const setItem = (value) => AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+  const getItem = () => AsyncStorage.getItem(STORAGE_KEY);
 
 
 
-  // const fetchImage = async () => {
-  //   try {
-  //     let getDoc = await getItem();
-  //     if (getDoc) {
-  //       getDoc = JSON.parse(getDoc);
-  //       setDocumentation(getDoc)
-  //     }
-  //   } catch (error) {
-  //     console.log('error', error);
-  //   }
-  // };
+  const fetchImage = async () => {
+    try {
+      let getDoc = await getItem();
+      if (getDoc) {
+        getDoc = JSON.parse(getDoc);
+        setDocumentation(getDoc)
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   const toggleModalVisibilty = () => {
     setIsModalVisible(!isModalVisible)
@@ -86,13 +86,8 @@ const App = ({ navigation }) => {
     // toggleModalVisibilty();
   }
 
-  const onPressGallery = async (event) => {
+  const onPressGallery = async () => {
     try {
-      let obj = {};
-      obj.id = Math.random();
-      obj.name ="khan"
-      obj.pass ="1234"
-      setDocumentation(arr => [...arr, obj]);
       // const res = await DocumentPicker.pick({
       //   type: [DocumentPicker.types.allFiles],
       //   //There can me more options as well
@@ -103,6 +98,15 @@ const App = ({ navigation }) => {
       //   // DocumentPicker.types.pdf
       // });
       // const responsevalue = res;
+      console.log("STRAT");
+      let imageArray = [];
+      let value = {
+        "size": "15",
+        "name": "khan",
+      }
+      imageArray.push(value)
+      await setItem(imageArray);
+      console.log("End");
 
       // let value = {
       //   "size": responsevalue[0].size,
@@ -160,4 +164,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default App;
+export default Home;
